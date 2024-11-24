@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Player Names</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .names-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 30px;
+            width: 400px;
+            text-align: center;
+        }
+        .title {
+            color: #ff6b6b;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        .player-input {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: transform 0.3s;
+        }
+       
+        .name-field {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #4ecdc4;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .mic-button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .mic-button:hover {
+            transform: scale(1.1);
+        }
+        .mic-button:active{
+            transform: scale(0.9);
+            box-shadow: 0 3px 6px;
+}
+        .mic-icon {
+            font-size: 24px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="names-container">
+        <div class="title">🎮 Enter Player Names 🎮</div>
+        <div id="playerInputs"></div>
+        <button class="mic-button" onclick="startRecognition()">
+            <span class="mic-icon">🎙️</span>
+        </button>
+    </div>
+
+    <script>
+        let currentPlayerIndex = 0;
+        let playerCount =parseInt(sessionStorage.getItem("playerCount"),10);
+        const playerNames = [];
+
+        // Initialize player input fields
+        function initializeInputs() {
+            const container = document.getElementById('playerInputs');
+            for(let i = 0; i < playerCount; i++) {
+                const div = document.createElement('div');
+                div.className = `player-input`;
+                const label=document.createElement("label");
+                    label.textContent=`player ${i+1} : `;
+                    label.setAttribute("for",`player${i+1}`);
+                    label.style.marginRight="10px";
+                    div.appendChild(label);
+
+                const input=document.createElement("input");
+                    input.type='text';
+                    input.id=`player${i+1}`;
+                    input.placeholder="Enter name ";
+                    input.className="name-field";
+                    div.appendChild(input);
+                container.appendChild(div);
+            }
+        }
+        document.addEventListener("DOMContentLoaded",()=>{
+            initializeInputs();
+        });
+
+
+        function startRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("Speech recognition not supported!");
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continuous = true;
+            recognition.interimResults = false;
+
+            recognition.onresult = (event) => {
+                
+                const name = event.results[event.results.length-1][0].transcript.trim();
+                if(currentPlayerIndex<playerCount){
+                    const currentInput = document.getElementById(`player${currentPlayerIndex+1}`);
+                    currentInput.value = name;
+                    playerNames[currentPlayerIndex]=name;
+                    currentPlayerIndex++;
+                }               
+                if(currentPlayerIndex>=playerCount&&(name.toLowerCase()==="begin")){
+                    sessionStorage.setItem('playerNames', JSON.stringify(playerNames));
+                    window.location.href='gamepage.html';
+                
+                }
+            };
+
+            recognition.onerror = (event) => {
+                alert("mellaga mellage..!! thondara ndhuku");
+            };
+
+            recognition.start();
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Memory Recall Game</title>
+   <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   <div class="container" id="container">
+      <div id="containerheader"><h2 >Memory Recall</h2></div>   
+      <button id="mike" onclick="startrecording()">🎤</button>
+      
+   </div>
+   <div id="nameContainer" class="name-container"></div>
+   <div class="box"> </div>
+   <script>
+      let i=1;
+      // Sample array of player names
+      const playerNames = JSON.parse(sessionStorage.getItem('playerNames')) || ["Player1", "Player2", "Player3"];
+      // Get the container element
+      const nameContainer = document.getElementById('nameContainer');
+      // Create individual boxes for each name and append them to the container
+      playerNames.forEach(name => {
+          const nameBox = document.createElement('div');
+          nameBox.className = 'name-box';
+          nameBox.id=`current${i++}`;
+          nameBox.textContent = name;
+          nameContainer.appendChild(nameBox);
+      });
+  </script>
+
+   <script src="script.js"></script>
+</body>
+</html>

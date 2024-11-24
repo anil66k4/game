@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Login</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .login-window {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 350px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            animation: float 2s ease-in-out infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+        .title {
+            color: #ff6b6b;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .player-count {
+            background: #4ecdc4;
+            color: white;
+            padding: 10px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .mic-button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .mic-button:hover {
+            transform: scale(1.1);
+        }
+        .mic-icon {
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-window">
+        <div class="title">🎮 Game Login 🎮</div>
+        <div class="player-count">Players: 0</div>
+        <input type="number" class="input-field" placeholder="Enter Number of Players" min="1" max="10">
+        <button class="mic-button" onclick="startRecognition()">
+            <span class="mic-icon">🎙️</span>
+        </button>
+    </div>
+
+    <script>
+        const playerInput = document.querySelector('.input-field');
+        const playerCountDisplay = document.querySelector('.player-count');
+
+        playerInput.addEventListener('input', function() {
+            const playerCount = this.value;
+            playerCountDisplay.textContent = `Players: ${playerCount || 0}`;
+        });
+
+        function startRecognition() {
+            const reco=window.webkitSpeechRecognition||window.SpeechRecognition;
+            if(!reco){
+                alert("no working broh");
+                return;
+            }
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continous=true;
+            recognition.interimResults=false;
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+               // const playerCount = parseInt(speechResult);
+                
+               if(playerInput.value!==0){
+                    if(speechResult=="start"){
+                        sessionStorage.setItem("playerCount",playerInput.value);
+                        window.location.href="player-names.html";
+                    }    
+                }                
+                else{
+                    alert('Please say a valid number between 1 and 10');
+                }
+            };
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html>

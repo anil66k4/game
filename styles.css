@@ -1,0 +1,115 @@
+/* styles.css */
+
+body {
+   font-family: Arial, sans-serif;
+   background-color: #f3f4f6;
+   margin: 0;
+   padding: 20px;
+   height: 100vh;
+
+}
+#mike{
+   
+   padding: 10px ;
+   font-size: 20px;
+   border-radius: 50%;
+   background-color: #00f7ff;
+   margin-left:60px; 
+   
+}
+#mike:hover{
+   transform: scale(1.1);
+   box-shadow: 0 6px 12px;;
+}
+#mike:active{
+   transform: scale(0.9);
+   box-shadow: 0 3px 6px;
+}
+
+.container{
+
+   position: absolute;
+   z-index: 9;
+   bottom: 50px;
+   right: 30px;
+   background-color: rebeccapurple;
+   padding: 10px;
+   box-shadow: 0 4px 6px;
+   border-radius: 5px;
+  
+}
+#containerheader{
+   z-index: 10;
+   cursor: move;
+   text-align: center;
+   background-color: #5e35b1;
+   padding: 10px;
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
+   color: white;
+}
+
+.new-box{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height:40px;
+   width: 120px;
+   padding: 10px 10px;
+   background-color: wheat;
+   color: blue(0, 4, 255);
+   font-size: 19px;     
+   font-weight: bold;
+   border-radius:8px;
+   white-space: nowrap;
+}
+
+
+.box {
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+   background-color: black;
+   height: 80%;
+   column-gap: 50px;
+   
+}
+
+.row{
+   gap: 40px;
+   flex-direction: row;  
+   display: flex;
+   margin-bottom:100px; 
+}
+.name-container {
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   background-color: #f3f4f6;
+   border-top: 2px solid #ddd;
+   padding: 10px;
+   display: flex;
+   gap: 10px;
+   justify-content: center;
+   align-items: center;
+   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+}
+.name-box {
+   display: inline-block;
+   padding: 10px 20px;
+   margin: 5px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   font-size: 16px;
+   transition: transform 0.3s ease, font-size 0.3s ease, background-color 0.3s ease;
+}
+
+.name-box.highlight {
+   transform: scale(1.3);
+   font-size: 18px;
+   background-color: #f0f8ff;
+   border-color: #007bff;
+}
+
+
