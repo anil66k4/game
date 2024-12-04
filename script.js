@@ -30,6 +30,7 @@ function inti() {
 
    function nextPlayer() {
        if (len === 1) {
+        
            alert(`Game Over! Winner: ${playerList[0]}`);
            return;
        }
@@ -39,7 +40,11 @@ function inti() {
        
 
        reco.onresult = function (event) {
-
+        if (wordIndex >= memory.length) {
+            // Player completed all matches, now prompt for a new word
+            isAddingNewWord = true;
+            //alert(`${currentPlayer}, say a new word to add to the sequence!`);
+        } 
            if (isAddingNewWord) {
             const word = event.results[event.results.length - 1][0].transcript.trim();
                // Add the new word to the memory array
@@ -61,15 +66,11 @@ function inti() {
                return;
            }
 
-           if (wordIndex >= memory.length) {
-               // Player completed all matches, now prompt for a new word
-               isAddingNewWord = true;
-               alert(`${currentPlayer}, say a new word to add to the sequence!`);
-           } else {
+          else {
             const word = event.results[event.results.length - 1][0].transcript.trim();
                const expected = memory[wordIndex].toLowerCase();
                if (word.toLowerCase() === expected) {
-                   wordIndex++;
+                   wordIndex++;// bug: increment iyaka nxt word read avuthene it starts again from result and we have to repeat that word to add into it make it twice
                } else {
                    // Player is eliminated
                    alert(`${currentPlayer} failed!`);
@@ -81,7 +82,7 @@ function inti() {
                      playerIndex=0;
                    }
                    removeHighlight();
-                   highlightplayer(playerIndex);
+                  // highlightplayer(playerIndex);
                    nextPlayer();
                    return;
                }
@@ -128,6 +129,9 @@ function addnewbox(word, currentrow) {
    newbox.className = "new-box";
    newbox.textContent = word;
    currentrow.appendChild(newbox);
+}
+function startrecording(){
+    reco.start();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
